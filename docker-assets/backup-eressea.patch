@@ -1,0 +1,25 @@
+--- backup-eressea.org	2020-12-03 19:01:33.947594665 +0000
++++ backup-eressea	2020-12-03 19:39:46.489607175 +0000
+@@ -3,12 +3,21 @@
+   ERESSEA=$HOME/eressea
+   echo "The ERESSEA environment variable is not set. Assuming $ERESSEA."
+ fi
++
+ GAME=$1
+ 
++# script can have 3 parameters
++# $1 = game number
++# $2 = turn
++# $3 = upload url
++# the upload url and hence the upload it only done, if all three parameter are given
++[ -n $3 ] && UPLOAD_WEBDAV_URL=$3
++
+ upload() {
++  [ -z $UPLOAD_WEBDAV_URL ] && return
+   SRC="$1"
+   DST=$(basename "$SRC")
+-  echo put "$SRC" "$DST" | cadaver "https://dav.box.com/dav/Eressea/game-$GAME/"
++  echo put "$SRC" "$DST" | cadaver "$UPLOAD_WEBDAV_URL"
+ }
+ 
+ if [ ! -d $ERESSEA/game-$GAME ]; then

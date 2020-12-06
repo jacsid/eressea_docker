@@ -1,0 +1,25 @@
+SHELL=/bin/bash
+PATH=/usr/sbin:/usr/bin:/bin
+MAILDIR=/data/mail/postbox
+DEFAULT=$MAILDIR
+LOGFILE=/data/log/procmail.log
+LOG=""
+VERBOSE=yes
+FROM=`formail -cx From:`
+ERESSEA=/data
+
+:0:server.lock
+* ^Subject:.*{{game.mailcmd}} REPORT \/.*
+* !From: {{game.email}}
+| tr -d '^Z' | /data/server/bin/sendreport.sh 1 "$FROM" $MATCH
+
+:0:server.lock
+* ^Subject:.*{{game.mailcmd}} BEFEHLE
+| grep -v '>From' | /data/server/bin/orders-accept 1 de
+
+:0:server.lock
+* ^Subject:.*{{game.mailcmd}} ORDERS
+| grep -v '>From' | /data/server/bin/orders-accept 1 en
+
+:0:
+$MAILDIR/inbox/

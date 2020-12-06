@@ -1,0 +1,19 @@
+--- check-orders.sh.bak	2020-12-05 17:24:17.709599000 +0000
++++ check-orders.sh	2020-12-05 17:25:04.054911000 +0000
+@@ -4,6 +4,7 @@
+ #set -x
+
+ GAME="$1"
++RULES="$2"
+ WARNINGS=0
+
+ if [ -z "$ERESSEA" ] ; then
+@@ -40,7 +41,7 @@
+ check() {
+   LANGUAGE="$1"
+   FILENAME="$2"
+-  "echeck" -w0 -x -R "e$GAME" -L "$LANGUAGE" "$FILENAME"
++  "echeck" -w0 -x -R "$RULES" -L "$LANGUAGE" "$FILENAME"
+ }
+
+ orders() {

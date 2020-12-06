@@ -1,0 +1,47 @@
+##################################
+## UPDATE EVERYTHING FROM HERE >>>
+
+# name of the sender for eressea mails
+set from = "{{game.email}}"
+set realname = "{{general.realname}}"
+
+# credentials for smtp access
+set smtp_url = "smtp://{{smtp.user}}@{{smtp.server}}:{{smtp.port}}"
+set smtp_pass = "{{smtp.pass}}"
+
+# from time to time change this value from no to yes. 
+# It will clean the mail caches. But it can be slow in big mailboxes
+set message_cache_clean = no
+
+## <<< UPDATE EVERYTHING TO HERE 
+################################
+
+# caches
+set header_cache = "/data/mail/cache/headers"
+set message_cachedir = "/data/mail/cache/bodies"
+set certificate_file = "/data/mail/certificates"
+
+# mailbox
+set mbox_type="maildir"
+set folder="/data/mail/postbox"
+set spoolfile="+inbox"
+set record="+sent"
+set postponed="+draft"
+set move=no
+
+mailboxes `echo -n "+ "; find /data/mail/postbox -maxdepth 1 -type d -name "*" -printf "+'%f' "`
+macro index c "<change-folder>?<toggle-mailboxes>" "open a different folder"
+macro pager c "<change-folder>?<toggle-mailboxes>" "open a different folder"
+macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
+macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
+macro compose A "<attach-message>?<toggle-mailboxes>" "attach message(s) to this message"
+
+# various options
+set mail_check = 30
+set sort = "threads"
+set sort_aux = "reverse-last-date-received"
+set auto_tag = yes
+hdr_order Date From To Cc
+alternative_order text/plain text/html *
+auto_view text/html
+set editor = "nano"
