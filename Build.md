@@ -17,3 +17,12 @@ The older versions are available as Debian [package](https://packagecloud.io/enn
 Hence you should bild the image with one of these options:
 * --build-arg eressea_branch=develop --build-arg echeck_branch=develop
 * --build-arg eressea_branch=master --build-arg echeck_branch=develop
+
+## Move to docker hub
+To push, call `docker push jacsid/eressea:latest`
+
+Set new tag and push again:
+```
+docker tag jacsid/eressea:latest jacsid/eressea:20201207_dev_dev
+docker push jacsid/eressea:20201207_dev_dev
+```

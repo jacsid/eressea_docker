@@ -45,7 +45,6 @@ RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y \
     cd git.eressea && \
     git submodule update --init && \
     patch process/backup-eressea < /eressea/backup-eressea.patch && \
-    patch process/create-orders < /eressea/create-orders.patch && \
     s/cmake-init && \
     s/build && \
     ln -sf conf/eressea.ini && \
