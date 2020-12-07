@@ -32,7 +32,7 @@ fi
 
 "$BIN/create-orders" "$GAME" "$TURN"
 if [ ! -s "$ERESSEA/game-$GAME/orders.$TURN" ]; then
-    if [ "$ENABLE_EMPTY_ORDERS" != "yes"]; then
+    if [ "$ENABLE_EMPTY_ORDERS" != "yes" ]; then
       echo "server did not create orders for turn $TURN in game $GAME"
       exit 2
     fi
