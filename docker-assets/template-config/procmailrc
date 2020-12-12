@@ -15,10 +15,12 @@ ERESSEA=/data
 
 :0:server.lock
 * ^Subject:.*{{game.mailcmd}} BEFEHLE
+* ^Subject:.*{{game.mailcmd}} 1 BEFEHLE
 | grep -v '>From' | /data/server/bin/orders-accept 1 de
 
 :0:server.lock
 * ^Subject:.*{{game.mailcmd}} ORDERS
+* ^Subject:.*{{game.mailcmd}} 1 ORDERS
 | grep -v '>From' | /data/server/bin/orders-accept 1 en
 
 :0:
