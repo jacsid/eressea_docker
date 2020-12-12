@@ -36,7 +36,6 @@ RUN mkdir -p /eressea/server && \
 FROM eressea-base as eressea
 ARG eressea_branch
 COPY docker-assets/backup-eressea.patch /eressea/
-COPY docker-assets/create-orders.patch /eressea/
 RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y \
     cmake luarocks libxml2-dev liblua5.2-dev libtolua-dev libncurses5-dev libsqlite3-dev \
     libexpat1-dev && \
@@ -80,6 +79,8 @@ COPY docker-assets/lua-scripts/ /eressea/lua-scripts/
 COPY docker-assets/run-eressea.sh /eressea/run-eressea.sh
 COPY docker-assets/start.sh /eressea/start.sh
 COPY --from=eressea /eressea/server/ /eressea/server/
+COPY --from=eressea /eressea/server/etc/report-mail.de.txt /eressea/template-mail/report-mail.de.txt
+COPY --from=eressea /eressea/server/etc/report-mail.en.txt /eressea/template-mail/report-mail.en.txt
 COPY --from=eressea /eressea/git.eressea/scripts/tools /eressea/server/scripts/tools
 COPY --from=eressea /eressea/git.eressea/s/preview /eressea/server/bin/
 COPY --from=eressea /usr/games/echeck /usr/games/echeck

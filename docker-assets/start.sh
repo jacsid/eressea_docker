@@ -120,10 +120,18 @@ cmd_startup() {
 
     mkdir -p /data/game-1
     mkdir -p /data/game-1/backup
-    ln -sf /data/server/scripts/config.lua /data/game-1/config.lua
-    ln -sf /data/server/bin/eressea /data/game-1/eressea
-    ln -sf /data/server/scripts/reports.lua /data/game-1/reports.lua
-    ln -sf /data/server/scripts/run-turn.lua /data/game-1/run-turn.lua
+    ln -sf /eressea/server/scripts/config.lua /data/game-1/config.lua
+    ln -sf /eressea/server/bin/eressea /data/game-1/eressea
+    ln -sf /eressea/server/scripts/reports.lua /data/game-1/reports.lua
+    ln -sf /eressea/server/scripts/run-turn.lua /data/game-1/run-turn.lua
+
+    mkdir -p /eressea/server/etc
+    [ -e /eressea/server/etc/report-mail.de.txt ] && rm -f /eressea/server/etc/report-mail.de.txt
+    [ -e /eressea/server/etc/report-mail.en.txt ] && rm -f /eressea/server/etc/report-mail.en.txt
+    [ -e /eressea/server/etc/report-mail.txt ] && rm -f /eressea/server/etc/report-mail.txt
+    ln -sf /data/config/report-mail.de.txt /eressea/server/etc/report-mail.de.txt
+    ln -sf /data/config/report-mail.en.txt /eressea/server/etc/report-mail.en.txt
+    ln -sf /data/config/report-mail.de.txt /eressea/server/etc/report-mail.txt
 
     cd /data/game-1
     echo "Eressea environment setup complete"
@@ -314,18 +322,24 @@ cmd_generate() {
         cat /data/game-1/eressea.ini > $tmpfile
         cat /data/config/mail.ini >> $tmpfile
 
-        [ -e /data/config/fetchmailrc ] && [ $force == 0 ] && rm -f /data/config/fetchmailrc
+        [ -e /data/config/fetchmailrc ] && [ $force == 1 ] && rm -f /data/config/fetchmailrc
         [ ! -e /data/config/fetchmailrc ] && j2 -f ini /eressea/template-config/fetchmailrc $tmpfile > /data/config/fetchmailrc
         chmod 700 /data/config/fetchmailrc
 
-        [ -e /data/config/procmailrc ] && [ $force == 0 ] && rm -f /data/config/procmailrc
+        [ -e /data/config/procmailrc ] && [ $force == 1 ] && rm -f /data/config/procmailrc
         [ ! -e /data/config/procmailrc ] && j2 -f ini /eressea/template-config/procmailrc $tmpfile > /data/config/procmailrc
 
-        [ -e /data/config/muttrc ] && [ $force == 0 ] && rm -f /data/config/muttrc
+        [ -e /data/config/muttrc ] && [ $force == 1 ] && rm -f /data/config/muttrc
         [ ! -e /data/config/muttrc ] && j2 -f ini /eressea/template-config/muttrc $tmpfile > /data/config/muttrc
 
-        [ -e /data/config/logrotate ] && [ $force == 0 ] && rm -f /data/config/logrotate
+        [ -e /data/config/logrotate ] && [ $force == 1 ] && rm -f /data/config/logrotate
         [ ! -e /data/config/logrotate ] && cp /eressea/template-config/logrotate /data/config/logrotate
+
+        [ -e /data/config/report-mail.de.txt ] && [ $force == 1 ] && rm -f /data/config/report-mail.de.txt
+        [ ! -e /data/config/report-mail.de.txt ] && cp /eressea/template-mail/report-mail.de.txt /data/config/report-mail.de.txt
+
+        [ -e /data/config/report-mail.en.txt ] && [ $force == 1 ] && rm -f /data/config/report-mail.en.txt
+        [ ! -e /data/config/report-mail.en.txt ] && cp /eressea/template-mail/report-mail.en.txt /data/config/report-mail.en.txt
 
         rm -f $tmpfile
 
