@@ -1,0 +1,29 @@
+--- /eressea/server/bin/run-eressea.cron	2020-12-12 15:09:21.000000000 +0000
++++ /eressea/run-eressea.sh	2020-12-07 21:09:58.000000000 +0000
+@@ -1,7 +1,12 @@
+ #!/bin/bash
+
++# this script is based on run-eressea.cron
++# differences to original
++#   it is possible to run a turn with empty orders
++
+ eval "$(luarocks path)"
+ GAME=$1
++ENABLE_EMPTY_ORDERS=$2
+ (
+ [ "$ENABLED" == "no" ] && exit
+ [ -z "$ERESSEA" ] && ERESSEA="$HOME/eressea"
+@@ -27,8 +32,10 @@
+
+ "$BIN/create-orders" "$GAME" "$TURN"
+ if [ ! -s "$ERESSEA/game-$GAME/orders.$TURN" ]; then
+-  echo "server did not create orders for turn $TURN in game $GAME"
+-  exit 2
++    if [ "$ENABLE_EMPTY_ORDERS" != "yes" ]; then
++      echo "server did not create orders for turn $TURN in game $GAME"
++      exit 2
++    fi
+ fi
+
+ "$BIN/backup-eressea" "$GAME" "$TURN"
+ 
