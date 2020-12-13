@@ -556,7 +556,7 @@ cmd_run() {
     get_turn
     enable_empty_orders="no"
     [ "$turn" == "0" ] && enable_empty_orders="yes"
-    /eressea/run-eressea.sh 1     
+    /eressea/run-eressea.sh 1 $enable_empty_orders
 
     cmd_shutdown
 }
