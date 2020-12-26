@@ -5,6 +5,10 @@ More details about Eressea find on
 - in [wiki](https://wiki.eressea.de/index.php/Hauptseite) you find the game rules and a lot of other information
 - and finally the source code, which is hosted on [GitHub](https://github.com/eressea)
 
+The Dockerfile is available on
+* [GitHub](https://github.com/jacsid/eressea_docker)
+* [Private Repository](https://git.jacs-home.eu/juergen/eressea-docker)
+
 ## Volumes
 By default, the image expects a single volume, located at `/data`. It will hold
 * configuration files
