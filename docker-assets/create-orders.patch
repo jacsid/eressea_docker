@@ -1,0 +1,14 @@
+--- create-orders	2020-12-26 10:04:52.000000000 +0100
++++ create-orders copy	2020-12-26 10:06:56.000000000 +0100
+@@ -14,9 +14,10 @@
+   echo "orders.dir.$TURN already exists"
+   exit
+ fi
++mv orders.dir orders.dir.$TURN
+ rm -f "orders.$TURN"
+ 
+-cd orders.dir || exit
++cd orders.dir.$TURN || exit
+ 
+ php ../../orders-php/cli.php -d "orders.db" export | tr -d '\r' > "../orders.$TURN"
+ 

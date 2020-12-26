@@ -36,6 +36,7 @@ RUN mkdir -p /eressea/server && \
 FROM eressea-base as eressea
 ARG eressea_branch
 COPY docker-assets/backup-eressea.patch /eressea/
+COPY docker-assets/create-orders.patch /eressea/
 COPY docker-assets/run-eressea.cron.patch /eressea/
 RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y \
     cmake luarocks libxml2-dev liblua5.2-dev libtolua-dev libncurses5-dev libsqlite3-dev \
@@ -45,6 +46,7 @@ RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y \
     cd git.eressea && \
     git submodule update --init && \
     patch process/backup-eressea < /eressea/backup-eressea.patch && \
+    patch process/create-orders < /eressea/create-orders.patch && \
     patch process/cron/run-eressea.cron < /eressea/run-eressea.cron.patch && \
     s/cmake-init && \
     s/build && \
