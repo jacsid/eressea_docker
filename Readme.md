@@ -107,3 +107,12 @@ docker run -it --rm \
     -v /path/to/my/local/eressea/folder:/data \
     jacsid/eressea run
 ```
+
+## Update Docker image
+It's easy to update to the newest Docker image. Execute following command:
+
+```
+docker image pull jacsid/eressea:latest
+```
+
+Afterwards start the above described commands as usual.
