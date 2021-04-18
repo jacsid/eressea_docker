@@ -116,3 +116,24 @@ docker image pull jacsid/eressea:latest
 ```
 
 Afterwards start the above described commands as usual.
+
+## Correction of game data
+Sometimes there are bugs in the server program where you have to correct game data manually.
+Find next some samples how to archive this.
+### Sample session
+Set hebs which can be found by units of a region where a specific unit is, to h2.
+
+```
+sudo docker run -it --rm -v /path/to/my/local/eressea/folder:/data jacsid/eressea bash  
+
+./eressea
+
+require 'config'
+eressea.read_game('18.dat')
+u = get_unit('xdyv')
+r = u.region
+r.herb = "h2"
+eressea.write_game('18.dat')
+
+print(u:show())
+```

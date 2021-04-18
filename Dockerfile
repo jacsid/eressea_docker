@@ -40,7 +40,7 @@ COPY docker-assets/create-orders.patch /eressea/
 COPY docker-assets/run-eressea.cron.patch /eressea/
 RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y \
     cmake luarocks libxml2-dev liblua5.2-dev libtolua-dev libncurses5-dev libsqlite3-dev \
-    libexpat1-dev && \
+    libiniparser-dev libcjson-dev libexpat1-dev && \
     cd /eressea && \
     git clone -b $eressea_branch https://github.com/eressea/server.git git.eressea && \
     cd git.eressea && \
@@ -69,7 +69,7 @@ ENV PATH="${PATH}:/usr/games"
 
 RUN apt-get update && \
     apt-get install -y liblua5.2-0 libsqlite3-0 libncurses5 libreadline7 libexpat1 python python-pip mutt nano \
-    logrotate pwgen zip luarocks fetchmail procmail php7.3 gettext php7.3-sqlite && \
+    logrotate pwgen zip luarocks fetchmail procmail php7.3 gettext php7.3-sqlite libiniparser1 libcjson1 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     pip install bcrypt j2cli && \
@@ -82,6 +82,9 @@ COPY docker-assets/template-config/ /eressea/template-config/
 COPY docker-assets/lua-scripts/ /eressea/lua-scripts/
 COPY docker-assets/start.sh /eressea/start.sh
 COPY --from=eressea /eressea/server/ /eressea/server/
+COPY --from=eressea /eressea/git.eressea/build-x86_64-linux-gnu-gcc-Debug/tools/inifile /eressea/server/bin
+COPY --from=eressea /eressea/git.eressea/build-x86_64-linux-gnu-gcc-Debug/tools/gethash /eressea/server/bin
+COPY --from=eressea /eressea/git.eressea/build-x86_64-linux-gnu-gcc-Debug/tools/atoi36 /eressea/server/bin
 COPY --from=eressea /eressea/server/etc/report-mail.de.txt /eressea/template-mail/report-mail.de.txt
 COPY --from=eressea /eressea/server/etc/report-mail.en.txt /eressea/template-mail/report-mail.en.txt
 COPY --from=eressea /eressea/git.eressea/scripts/tools /eressea/server/scripts/tools
@@ -96,3 +99,4 @@ VOLUME ["/data"]
 WORKDIR /data
 ENTRYPOINT ["/eressea/start.sh"]
 CMD ["help"]
+

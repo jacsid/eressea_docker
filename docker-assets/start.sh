@@ -61,7 +61,7 @@ cmd_bash() {
         exit 2
     }
 
-    args=$(getopt --name shutdown -o hn -- "$@")
+    args=$(getopt --name bash -o hn -- "$@")
 
     if [ $? != 0 ]; then
         usage 
@@ -93,7 +93,7 @@ cmd_startup() {
         exit 2
     }
 
-    args=$(getopt --name shutdown -o h -- "$@")
+    args=$(getopt --name startup -o h -- "$@")
 
     if [ $? != 0 ]; then
         usage 
@@ -134,6 +134,10 @@ cmd_startup() {
     ln -sf /data/config/report-mail.de.txt /eressea/server/etc/report-mail.txt
 
     cd /data/game-1
+
+    eval `luarocks path`
+    export LUA_PATH="$LUA_PATH;/eressea/server/scripts/?.lua;./?/init.lua"
+
     echo "Eressea environment setup complete"
 }
 
@@ -377,7 +381,7 @@ cmd_map() {
         exit 2
     }
 
-    args=$(getopt --name shutdown -o hnw:e:t:s -- "$@")
+    args=$(getopt --name map -o hnw:e:t:s -- "$@")
 
     if [ $? != 0 ]; then
         usage 
@@ -433,7 +437,7 @@ cmd_addpwd() {
         exit 2
     }
 
-    args=$(getopt --name shutdown -o hf -- "$@")
+    args=$(getopt --name addpwd -o hf -- "$@")
 
     if [ $? != 0 ]; then
         usage 
@@ -485,7 +489,7 @@ cmd_mail() {
         exit 2
     }
 
-    args=$(getopt --name shutdown -o hcf -- "$@")
+    args=$(getopt --name mail -o hcf -- "$@")
 
     if [ $? != 0 ]; then
         usage 
@@ -532,7 +536,7 @@ cmd_run() {
         exit 2
     }
 
-    args=$(getopt --name shutdown -o h -- "$@")
+    args=$(getopt --name run -o h -- "$@")
 
     if [ $? != 0 ]; then
         usage 
